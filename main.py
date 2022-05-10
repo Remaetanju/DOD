@@ -15,6 +15,12 @@ def generate_dummy_shapes_if_not_exist():
 
 
 def simplified_algorithm(_shapes):
+    """
+    :param _shapes: list of shapes described by json
+
+    :return: None
+    """
+
     simplified_shapes = []
 
     for shape in _shapes:
@@ -22,6 +28,20 @@ def simplified_algorithm(_shapes):
         simplified_shapes.append(new_shape)
 
     logging.info(f'Created a list of simplified shape objects for treatment, nb of elems: {len(simplified_shapes)}')
+
+    for elem in simplified_shapes:
+        logging.info(elem.__dict__)
+
+    # operate on the simplified shape list here (filter, etc)
+
+    # then we re-export the data to json state
+    output_shapes = []
+
+    for shape in simplified_shapes:
+        output_shapes.append(shape.to_json())
+
+    """ output shapes are now op to be displayed """
+    return output_shapes
 
 
 def typed_algorithm():
@@ -36,7 +56,7 @@ def logging_config():
 
     loggers = [logging.getLogger(name) for name in logging.root.manager.loggerDict]
     logging.basicConfig(filename=None, level=logging.DEBUG)
-    logging.info(f'available loggers: {loggers}')
+    # logging.info(f'available loggers: {loggers}')
 
 
 if __name__ == '__main__':
