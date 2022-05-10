@@ -18,11 +18,9 @@ class Generator:
         self.shape_size = shape_size
 
     def generate_circle(self):
-        randrange(10)
         return {'radius': randrange(self.shape_size), 'center': (randrange(self.x_limit), randrange(self.y_limit)), 'color': random.choice(Colors)}
 
     def generate_square(self):
-        randrange(10)
         return {'height': randrange(self.shape_size), 'width': randrange(self.shape_size),
                 'center': (randrange(self.x_limit), randrange(self.y_limit)), 'color': random.choice(Colors)}
 
@@ -36,8 +34,8 @@ class Scribe:
 
     @staticmethod
     def import_shapes_from_file(filename):
-        with open(filename, 'w') as file:
-            return json.loads(file.read())
+        with open(filename, 'r') as file:
+            return json.load(file)
 
 
 class Picasso:
