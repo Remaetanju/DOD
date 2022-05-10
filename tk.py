@@ -1,8 +1,8 @@
 from random import randrange
 import random
-
 import json
 from tkinter import ALL, BOTTOM, Button, Canvas, Frame, Label, StringVar, Tk, filedialog as fd, messagebox, simpledialog
+from tkinter.messagebox import askyesno
 from shapegen import Scribe
 
 Colors = ['Red', 'Green', 'Blue', 'Grey', 'Pink']
@@ -70,11 +70,13 @@ class App:
         self.bexportJson.grid(column=1, row=3)
         self.bclear.grid(column=2, row=3)
 
-        self.mouseLabel.grid(column=1, row=4)
-
         for colorButton in self.colorButtons:
-            colorButton.grid(column=self.colorButtons.index(colorButton), row=5)
+            colorButton.grid(column=self.colorButtons.index(colorButton), row=4)
 
+        self.mouseLabel.grid(column=1, row=5)
+
+
+        # drawing area
         self.drawFrame = Frame(self.root, width=self.x, height=self.y, bg='lightgrey',
                         highlightbackground="blue", highlightthickness=2)
         self.canvas = Canvas(self.drawFrame, bg="white", height=self.x, width=self.y)
@@ -168,8 +170,10 @@ class App:
         self.update()
     
     def clear(self):
-        self.shapes = []
-        self.update()
+        doClear = askyesno("Clear canvas", "Do you really want to clear the canvas?")
+        if doClear:
+            self.shapes = []
+            self.update()
 
 
     def update(self):
