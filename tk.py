@@ -5,7 +5,7 @@ import json
 from tkinter import ALL, BOTTOM, Button, Canvas, Frame, Label, StringVar, Tk, filedialog as fd, messagebox, simpledialog
 from shapegen import Scribe
 
-Colors = ['Red', 'Green', 'Blue']
+Colors = ['Red', 'Green', 'Blue', 'Grey', 'Pink']
 
 class App:
     def __init__(self, x, y):
@@ -17,6 +17,7 @@ class App:
         self.mousex = None
         self.mousey = None
 
+        self.color = "Blue"
         # Root
 
         self.root = Tk()
@@ -48,6 +49,12 @@ class App:
         self.mouseText = StringVar()
         self.mouseLabel = Label(self.topFrame, textvariable=self.mouseText)
         
+        self.colorButtons = []
+        self.colorButtons.append(Button(self.topFrame, text=Colors[0], command=lambda: self.setColor(Colors[0]), background=Colors[0]))
+        self.colorButtons.append(Button(self.topFrame, text=Colors[1], command=lambda: self.setColor(Colors[1]), background=Colors[1]))
+        self.colorButtons.append(Button(self.topFrame, text=Colors[2], command=lambda: self.setColor(Colors[2]), background=Colors[2]))
+        self.colorButtons.append(Button(self.topFrame, text=Colors[3], command=lambda: self.setColor(Colors[3]), background=Colors[3]))
+        self.colorButtons.append(Button(self.topFrame, text=Colors[4], command=lambda: self.setColor(Colors[4]), background=Colors[4]))
 
         # Grid
         self.bsujet1.grid(column=0, row=1)
@@ -65,6 +72,8 @@ class App:
 
         self.mouseLabel.grid(column=1, row=4)
 
+        for colorButton in self.colorButtons:
+            colorButton.grid(column=self.colorButtons.index(colorButton), row=5)
 
         self.drawFrame = Frame(self.root, width=self.x, height=self.y, bg='lightgrey',
                         highlightbackground="blue", highlightthickness=2)
@@ -178,6 +187,9 @@ class App:
     def run(self):
         self.canvas.pack()
         self.root.mainloop()
+
+    def setColor(self, color):
+        self.color = color
         
     def sujet1(self):
         print('sujet1')
