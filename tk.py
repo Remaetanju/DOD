@@ -37,7 +37,9 @@ class App:
 
         self.bsujet3 = Button(self.topFrame, text='Sujet 3', command=self.sujet3)
         self.bAddCircle = Button(self.topFrame, text='Add Circle', command=self.addCircle)
+        self.bAddRandCircle = Button(self.topFrame, text='Add Circle Rand', command=self.addCircleRand)
         self.bAddRect = Button(self.topFrame, text='Add Rect', command=self.addRectangle)
+        self.bAddRandRect = Button(self.topFrame, text='Add Rect Rand', command=self.addRectangleRand)
         
         self.bimportJson = Button(self.topFrame, text='Import', command=self.importJson)
         self.bexportJson = Button(self.topFrame, text='Export', command=self.exportJson)
@@ -53,7 +55,9 @@ class App:
         self.bsujet3.grid(column=2, row=1)
 
         self.bAddCircle.grid(column=0, row=2)
+        self.bAddRandCircle.grid(column=1, row=2)
         self.bAddRect.grid(column=2, row=2)
+        self.bAddRandRect.grid(column=3, row=2)
         
         self.bimportJson.grid(column=0, row=3)
         self.bexportJson.grid(column=1, row=3)
@@ -109,6 +113,14 @@ class App:
         circle = dict()
         circle["radius"] = radius
         circle["center"] = (x,y)
+        circle["color"] =  random.choice(Colors)
+        self.shapes.append(circle)
+        self.update()   
+
+    def addCircleRand(self):
+        circle = dict()
+        circle["radius"] = randrange(0, self.x/2)
+        circle["center"] = (randrange(circle["radius"], self.x-circle["radius"]), randrange(circle["radius"], self.y-circle["radius"]))
         circle["color"] =  random.choice(Colors)
         self.shapes.append(circle)
         self.update()
