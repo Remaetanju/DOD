@@ -43,15 +43,22 @@ class Scribe:
 class Picasso:
     def __init__(self, shapes):
         # define Matplotlib figure and axis
-        fig, ax = plt.subplots()
+        self.fig, self.ax = plt.subplots()
 
-        # create simple line plot
-        ax.plot([0, 10], [0, 10])
+        for shape in shapes:
+            # create simple line plot
+            # ax.plot([0, 10], [0, 10])
 
-        circle = plt.Circle((0, 0), radius=0.75, fc='y')
-        # add rectangle to plot
-        ax.add_patch(Rectangle((1, 1), 2, 6))
-        ax.add_patch(circle)
+            if 'radius' in shape.keys():
+                circle = plt.Circle(shape['center'], radius=shape['radius'], fc='y')
+                fig = plt.gcf()
+                ax = fig.gca()
+                ax.add_patch(circle)
+            # # add rectangle to plot
+            # ax.add_patch(Rectangle((1, 1), 2, 6))
+            # ax.add_patch(circle)
 
-        # display plot
+            # display plot
+
+    def print_shapes(self):
         plt.show()
