@@ -1,5 +1,4 @@
-from AbstractShapes import Circle, Quadrilatere
-from SimplifiedShapes import SimplifiedShape
+from App.src.shapes.SimplifiedShapes import SimplifiedShape
 import math
 
 

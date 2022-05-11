@@ -1,5 +1,5 @@
 import logging
-from tk import App
+from App.src.tk_ui import ShapeApp
 
 
 def logging_config():
@@ -12,5 +12,5 @@ def logging_config():
 
 if __name__ == '__main__':
     logging_config()
-    app = App(500, 500)
+    app = ShapeApp(500, 500)
     app.run()

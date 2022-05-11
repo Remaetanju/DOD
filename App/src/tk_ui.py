@@ -1,11 +1,11 @@
 import logging
 import random
 
-from Scribe import Scribe
+from App.src.tools.Scribe import Scribe
 from random import randrange
 
 # algorithms import
-from filters.simplified_filters import simplified_algorithm
+from App.src.filters.simplified_filters import simplified_algorithm
 
 # tkinter
 from tkinter import ALL, BOTTOM,  StringVar, Tk, filedialog as fd
@@ -15,7 +15,7 @@ from tkinter.messagebox import askyesno
 Colors = ['Red', 'Green', 'Blue', 'Grey', 'Pink']
 
 
-class App:
+class ShapeApp:
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -271,7 +271,6 @@ class App:
         self.colorLabel.config(bg=color)
 
     def sujet1(self):
-        print('sujet1')
         logging.info('Starting emission with a simplfied data structure')
         logging.info(self.shapes)
         execution_data = dict(point_1=(0, 0), point_2=(0, 0), execution_time=0)  # format des data renvoyee par simplfied algorithm

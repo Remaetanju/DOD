@@ -1,4 +1,4 @@
-from SimplifiedShapes import SimplifiedShape
+from App.src.shapes.SimplifiedShapes import SimplifiedShape
 import math
 import logging
 

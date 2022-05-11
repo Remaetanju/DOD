@@ -1,8 +1,3 @@
-from AbstractShapes import Circle, Quadrilatere
-from SimplifiedShapes import SimplifiedShape
-import math
-
-
 class Filter:
     @staticmethod
     def filter_generique_circle(shapes):
