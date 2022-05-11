@@ -57,8 +57,9 @@ class Filter:
         mutation_shape = []
 
         for circle in circles:
-            new_simple_shape = SimplifiedShape(origin=circle.origin, color=circle.color,
-                                               width=circle.radius, height=circle.radius,
+            center = (circle.origin[0] - circle.radius, circle.origin[1] - circle.radius)
+            new_simple_shape = SimplifiedShape(origin=center, color=circle.color,
+                                               width=circle.radius*2, height=circle.radius*2,
                                                radius=None)
             mutation_shape.append(new_simple_shape)
 
