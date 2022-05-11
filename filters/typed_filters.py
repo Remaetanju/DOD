@@ -2,11 +2,46 @@ from AbstractShapes import Circle, Quadrilatere
 from SimplifiedShapes import SimplifiedShape
 import math
 
+from SimplifiedShapes import SimplifiedShape
+import math
+import logging
+import time
+
+def simplified_algorithm(_shapes):
+    """
+    :param _shapes: list of shapes described by json
+
+    :return: None
+    """
+    filter = Filter()
+    simplified_shapes = []
+
+    for shape in _shapes:
+        new_shape = SimplifiedShape(origin=shape.get('origin'), color=shape.get('color'), width=shape.get('width'), height=shape.get('height'), radius=shape.get('radius'))
+        simplified_shapes.append(new_shape)
+
+    logging.info(f'Created a list of simplified shape typed for treatment, nb of elems: {len(simplified_shapes)}')
+
+    for elem in simplified_shapes:
+        logging.info(elem.__dict__)
+
+    # operate on the simplified shape list here (filter, etc)
+    timer = time.perf_counter()
+    circle_list = filter.filter_typed_circle(simplified_shapes)
+    quadrilatere_list = filter.filter_typed_quadrilatere(simplified_shapes)
+    mutate_list = filter.mutation_typed_circle(circle_list)
+    res = filter.emission_typed_quadrilatere(mutate_list+quadrilatere_list)
+    final_timer = time.perf_counter() - timer
+
+    res["execution_time"] = final_timer*1000
+    """ output shapes are now op to be displayed """
+    return res
+
 
 class Filter:
 
 
-    def filter_object_circle(self, shapes):
+    def filter_typed_circle(self, shapes):
         circles_list = []
 
         for shape in shapes:
@@ -16,7 +51,7 @@ class Filter:
         return circles_list
 
 
-    def filter_object_quadrilatere(self, shapes):
+    def filter_typed_quadrilatere(self, shapes):
         quadrilatere_list = []
 
         for shape in shapes:
@@ -26,7 +61,7 @@ class Filter:
         return quadrilatere_list
 
 
-    def mutation_object_circle(self, cercles):
+    def mutation_typed_circle(self, cercles):
         mutation_shape = []
 
         for cercle in cercles:
@@ -35,7 +70,7 @@ class Filter:
         return mutation_shape
 
 
-    def emission_object_quadrilatere(self, shapes):
+    def emission_typed_quadrilatere(self, shapes):
         res = 0
 
         left = shapes[0].center[0]

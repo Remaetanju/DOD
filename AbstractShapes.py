@@ -1,7 +1,5 @@
 import random
 
-from Scribe import Colors
-
 
 class AbstractShape:
     center = tuple()

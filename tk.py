@@ -6,6 +6,8 @@ from random import randrange
 
 # algorithms import
 from filters.simplified_filters import simplified_algorithm
+from filters.generic_filters import generic_algorithm
+from filters.simplified_filters import simplified_algorithm
 
 # tkinter
 from tkinter import ALL, BOTTOM,  StringVar, Tk, filedialog as fd
@@ -274,16 +276,31 @@ class App:
         print('sujet1')
         logging.info('Starting emission with a simplfied data structure')
         logging.info(self.shapes)
-        execution_data = dict(point_1=(0, 0), point_2=(0, 0), execution_time=0)  # format des data renvoyee par simplfied algorithm
         self.execution_data = simplified_algorithm(self.shapes)
+
         self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
         self.update()
         print(self.mode.get())
 
     def sujet2(self):
         print('sujet2')
+        logging.info('Starting emission with a generic data structure')
+        print("AAAAAAAAAAAAAAAAA")
+        print(self.shapes)
+        print("BBBBBBBBBBBBBBBBB")
+        logging.info(self.shapes)
+        self.execution_data = generic_algorithm(self.shapes)
+
+        self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
+        self.update()
         print(self.mode.get())
 
     def sujet3(self):
         print('sujet3')
+        logging.info('Starting emission with a typed data structure')
+        logging.info(self.shapes)
+        self.execution_data = typed_algorithm(self.shapes)
+
+        self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
+        self.update()
         print(self.mode.get())

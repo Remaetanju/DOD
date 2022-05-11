@@ -1,7 +1,7 @@
 from SimplifiedShapes import SimplifiedShape
 import math
 import logging
-
+import time
 
 def simplified_algorithm(_shapes):
     """
@@ -22,16 +22,20 @@ def simplified_algorithm(_shapes):
         logging.info(elem.__dict__)
 
     # operate on the simplified shape list here (filter, etc)
+    timer = time.perf_counter()
     circle_list = filter.filter_simplified_circle(simplified_shapes)
     quadrilatere_list = filter.filter_simplified_quadrilatere(simplified_shapes)
     mutate_list = filter.mutation_simplified_circle(circle_list)
     res = filter.emission_simplified_quadrilatere(mutate_list+quadrilatere_list)
+    final_timer = time.perf_counter() - timer
 
+    res["execution_time"] = final_timer*1000
     """ output shapes are now op to be displayed """
     return res
 
 
 class Filter:
+
     @staticmethod
     def filter_simplified_circle(shapes):
         circles_list = []
@@ -57,8 +61,8 @@ class Filter:
         mutation_shape = []
 
         for circle in circles:
-            center = (circle.origin[0] - circle.radius, circle.origin[1] - circle.radius)
-            new_simple_shape = SimplifiedShape(origin=center, color=circle.color,
+            origin = (circle.origin[0] - circle.radius, circle.origin[1] - circle.radius)
+            new_simple_shape = SimplifiedShape(origin=origin, color=circle.color,
                                                width=circle.radius*2, height=circle.radius*2,
                                                radius=None)
             mutation_shape.append(new_simple_shape)
@@ -67,8 +71,6 @@ class Filter:
 
     @staticmethod
     def emission_simplified_quadrilatere(shapes):
-        res = 0
-
         min_left = math.inf
         max_right = - math.inf
         max_top = - math.inf
