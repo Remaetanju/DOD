@@ -7,7 +7,7 @@ def generate_dummy_shapes_if_not_exist():
     dummy_shapes.append(gen.generate_circle())
     dummy_shapes.append(gen.generate_square())
 
-    Scribe.export_shapes_to_file(dummy_shapes, 'test.json')
+    Scribe.export_shapes_to_file(dummy_shapes, '../test.json')
 
 
 # def typed_algorithm():
