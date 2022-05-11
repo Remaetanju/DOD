@@ -1,8 +1,4 @@
 from AbstractShapes import Circle, Quadrilatere
-from SimplifiedShapes import SimplifiedShape
-import math
-
-from SimplifiedShapes import SimplifiedShape
 import math
 import logging
 import time
@@ -236,4 +232,4 @@ class Filter:
         print("width: " + str(max_right-min_left))
         print("height: " + str(max_top-min_bottom))
 
-        return  0
+        return 0
