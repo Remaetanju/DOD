@@ -24,7 +24,7 @@ class App:
 
         self.mouse_x = None
         self.mouse_y = None
-
+        self.execution_data = None
         self.color = "Blue"
         # Root
 
@@ -166,7 +166,7 @@ class App:
 
     def addCircleRand(self):
         circle = dict()
-        circle["radius"] = randrange(0, self.x / 2)
+        circle["radius"] = randrange(10, self.x / 2)
         circle["origin"] = (randrange(circle["radius"], self.x - circle["radius"]),
                             randrange(circle["radius"], self.y - circle["radius"]))
         circle["color"] = random.choice(Colors)
@@ -174,22 +174,26 @@ class App:
         self.update()
 
     def drawResultRect(self):
-        p1 = (123,123)
-        p2 = (323,323)
 
-        # x1, y1, x2, y2
-        tl = (p1[0], p1[1])
-        tr = (p2[0], p1[1])
-        bl = (p1[0], p2[1])
-        br = (p2[0], p2[1])
+        if self.execution_data is not None:
 
-        dash = (5,2)
-        lineWidth = 3
+            #print(self.execution_data)
+            p1 = self.execution_data["point_1"]
+            p2 = self.execution_data["point_2"]
 
-        self.canvas.create_line(tl , tr, dash=dash, width=lineWidth)
-        self.canvas.create_line(tr , br, dash=dash, width=lineWidth)
-        self.canvas.create_line(br , bl, dash=dash, width=lineWidth)
-        self.canvas.create_line(bl , tl, dash=dash, width=lineWidth)
+            # x1, y1, x2, y2
+            tl = (p1[0], p1[1])
+            tr = (p2[0], p1[1])
+            bl = (p1[0], p2[1])
+            br = (p2[0], p2[1])
+
+            dash = (5,2)
+            lineWidth = 3
+
+            self.canvas.create_line(tl , tr, dash=dash, width=lineWidth)
+            self.canvas.create_line(tr , br, dash=dash, width=lineWidth)
+            self.canvas.create_line(br , bl, dash=dash, width=lineWidth)
+            self.canvas.create_line(bl , tl, dash=dash, width=lineWidth)
 
     def addRectangle(self):
 
@@ -221,7 +225,7 @@ class App:
 
     def addRectangleRand(self):
         quad = dict()
-        quad["origin"] = (randrange(0, self.x), randrange(0, self.y))
+        quad["origin"] = (randrange(10, self.x), randrange(10, self.y))
         quad["height"] = randrange(self.y - quad["origin"][1])
         quad["width"] = randrange(self.x - quad["origin"][0])
         quad["color"] = random.choice(Colors)
@@ -265,8 +269,7 @@ class App:
         logging.info('Starting emission with a simplfied data structure')
         logging.info(self.shapes)
         execution_data = dict(point_1=(0, 0), point_2=(0, 0), execution_time=0)  # format des data renvoyee par simplfied algorithm
-        execution_data = simplified_algorithm(self.shapes)
-
+        self.execution_data = simplified_algorithm(self.shapes)
         self.update()
         print(self.mode.get())
 

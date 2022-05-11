@@ -27,26 +27,8 @@ def simplified_algorithm(_shapes):
     mutate_list = filter.mutation_simplified_circle(circle_list)
     res = filter.emission_simplified_quadrilatere(mutate_list+quadrilatere_list)
 
-    for l in quadrilatere_list:
-        print(l.width)
-        print(l.height)
-        print()
-
-    for l in mutate_list:
-        print(l.width)
-        print(l.height)
-        print()
-
-    print(res)
-
-    # then we re-export the data to json state
-    output_shapes = []
-
-    for shape in simplified_shapes:
-        output_shapes.append(shape.to_json())
-
     """ output shapes are now op to be displayed """
-    return output_shapes
+    return res
 
 
 class Filter:
@@ -120,5 +102,9 @@ class Filter:
         print("TEST")
         print("width: " + str(max_right - min_left))
         print("height: " + str(max_top - min_bottom))
+        result_execution_data = dict(point_1=(min_left, min_bottom), point_2=(max_right, max_top), execution_time=0)
 
-        return 0
+        print("coucou")
+        print(result_execution_data["point_1"])
+
+        return result_execution_data
