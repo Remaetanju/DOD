@@ -1,7 +1,7 @@
 from random import randrange
 import random
 import json
-from tkinter import ALL, BOTTOM, Button, Canvas, Frame, Label, StringVar, Tk, filedialog as fd, messagebox, simpledialog
+from tkinter import ALL, BOTTOM, Button, Canvas, Frame, Label, Radiobutton, StringVar, Tk, filedialog as fd, messagebox, simpledialog
 from tkinter.messagebox import askyesno
 from shapegen import Scribe
 
@@ -96,6 +96,14 @@ class App:
 
         self.colorLabel.grid(column=0, row=5)
         self.mouseLabel.grid(column=1, row=5)
+
+        self.modes = ['pipeline', 'parelelle']
+        self.modeLabels = ['Pipeline', 'Parelelle']
+        self.mode = StringVar()
+        self.bpipeline = Radiobutton(self.topFrame, variable=self.mode, text=self.modeLabels[0], value=self.modes[0])
+        self.bparelelle = Radiobutton(self.topFrame, variable=self.mode, text=self.modeLabels[1], value=self.modes[1])
+        self.bpipeline.grid(column=2, row=5)
+        self.bparelelle.grid(column=3, row=5)
 
         # drawing area
         self.drawFrame = Frame(self.root, width=self.x, height=self.y, bg='lightgrey',
@@ -225,15 +233,17 @@ class App:
         # self.colorText.set('color: {}'.format(color))
         self.colorLabel.config(bg=color)
 
-
     def sujet1(self):
         print('sujet1')
+        print(self.mode.get())
 
     def sujet2(self):
         print('sujet2')
+        print(self.mode.get())
 
     def sujet3(self):
         print('sujet3')
+        print(self.mode.get())
 
 
 def main():
