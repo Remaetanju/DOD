@@ -59,6 +59,11 @@ class App:
         self.mouseText = StringVar()
         self.mouseLabel = Label(self.topFrame, textvariable=self.mouseText)
 
+        self.colorText = StringVar()
+        self.colorLabel = Label(self.topFrame, textvariable=self.colorText)
+        self.colorText.set("     ")
+        self.colorLabel.config(bg=self.color)
+
         self.colorButtons = []
         self.colorButtons.append(Button(
             self.topFrame, text=Colors[0], command=lambda: self.setColor(Colors[0]), background=Colors[0]))
@@ -89,6 +94,7 @@ class App:
             colorButton.grid(
                 column=self.colorButtons.index(colorButton), row=4)
 
+        self.colorLabel.grid(column=0, row=5)
         self.mouseLabel.grid(column=1, row=5)
 
         # drawing area
@@ -139,7 +145,7 @@ class App:
         circle = dict()
         circle["radius"] = radius
         circle["center"] = (x, y)
-        circle["color"] = random.choice(Colors)
+        circle["color"] = self.color
         self.shapes.append(circle)
         self.update()
 
@@ -176,7 +182,7 @@ class App:
         quad["height"] = height
         quad["width"] = width
         quad["origin"] = (x, y)
-        quad["color"] = random.choice(Colors)
+        quad["color"] = self.color
         self.shapes.append(quad)
         self.update()
 
@@ -216,6 +222,9 @@ class App:
 
     def setColor(self, color):
         self.color = color
+        # self.colorText.set('color: {}'.format(color))
+        self.colorLabel.config(bg=color)
+
 
     def sujet1(self):
         print('sujet1')
