@@ -169,6 +169,24 @@ class App:
         self.shapes.append(circle)
         self.update()
 
+    def drawResultRect(self):
+        p1 = (123,123)
+        p2 = (323,323)
+
+        # x1, y1, x2, y2
+        tl = (p1[0], p1[1])
+        tr = (p2[0], p1[1])
+        bl = (p1[0], p2[1])
+        br = (p2[0], p2[1])
+
+        dash = (5,2)
+        lineWidth = 3
+
+        self.canvas.create_line(tl , tr, dash=dash, width=lineWidth)
+        self.canvas.create_line(tr , br, dash=dash, width=lineWidth)
+        self.canvas.create_line(br , bl, dash=dash, width=lineWidth)
+        self.canvas.create_line(bl , tl, dash=dash, width=lineWidth)
+
     def addRectangle(self):
 
         x = simpledialog.askinteger('Add quad', 'Quad x value [{}, {}]'.format(
@@ -227,6 +245,7 @@ class App:
             else:
                 self.canvas.create_rectangle(shape["origin"][0], shape["origin"][1], shape["origin"]
                 [0] + shape["width"], shape["origin"][1] + shape["height"], fill=shape["color"])
+        self.drawResultRect()
 
     def run(self):
         self.canvas.pack()
