@@ -112,6 +112,12 @@ class App:
         self.bpipeline.grid(column=2, row=5)
         self.bparelelle.grid(column=3, row=5)
 
+
+        self.timeText = StringVar()
+        self.timeLabel = Label(self.topFrame, textvariable=self.timeText)
+        self.timeText.set("Time:")
+        self.timeLabel.grid(column=0, row=6)
+
         # drawing area
         self.drawFrame = Frame(self.root, width=self.x, height=self.y, bg='lightgrey',
                                highlightbackground="blue", highlightthickness=2)
@@ -270,6 +276,7 @@ class App:
         logging.info(self.shapes)
         execution_data = dict(point_1=(0, 0), point_2=(0, 0), execution_time=0)  # format des data renvoyee par simplfied algorithm
         self.execution_data = simplified_algorithm(self.shapes)
+        self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
         self.update()
         print(self.mode.get())
 
