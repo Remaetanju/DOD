@@ -32,7 +32,7 @@ class ShapeApp:
         # Root
 
         self.root = Tk()
-        self.root.geometry("500x700")
+        self.root.geometry("510x700")
         self.root.title('DOD shape project')
 
         # Top Frame
@@ -44,13 +44,14 @@ class ShapeApp:
         # Grid items
 
         self.bsujet1 = Button(
-            self.topFrame, text='Sujet 1', command=self.sujet1)
+            self.topFrame, text='Simplified', command=self.sujet1)
 
         self.bsujet2 = Button(
-            self.topFrame, text='Sujet 2', command=self.sujet2)
+            self.topFrame, text='Generic', command=self.sujet2)
 
         self.bsujet3 = Button(
-            self.topFrame, text='Sujet 3', command=self.sujet3)
+            self.topFrame, text='Typed', command=self.sujet3)
+
         self.bAddCircle = Button(
             self.topFrame, text='Add Circle', command=self.addCircle)
         self.bAddRandCircle = Button(
@@ -107,14 +108,13 @@ class ShapeApp:
         self.colorLabel.grid(column=0, row=5)
         self.mouseLabel.grid(column=1, row=5)
 
-        self.modes = ['pipeline', 'parelelle']
-        self.modeLabels = ['Pipeline', 'Parelelle']
+        self.modes = ['pipeline', 'parallel']
+        self.modeLabels = ['Pipeline', 'Parallel']
         self.mode = StringVar()
         self.bpipeline = Radiobutton(self.topFrame, variable=self.mode, text=self.modeLabels[0], value=self.modes[0])
-        self.bparelelle = Radiobutton(self.topFrame, variable=self.mode, text=self.modeLabels[1], value=self.modes[1])
+        self.bparallel = Radiobutton(self.topFrame, variable=self.mode, text=self.modeLabels[1], value=self.modes[1])
         self.bpipeline.grid(column=2, row=5)
-        self.bparelelle.grid(column=3, row=5)
-
+        self.bparallel.grid(column=3, row=5)
 
         self.timeText = StringVar()
         self.timeLabel = Label(self.topFrame, textvariable=self.timeText)
