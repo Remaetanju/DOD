@@ -1,9 +1,12 @@
+import logging
 from random import randrange
 import random
 import json
-from tkinter import ALL, BOTTOM, Button, Canvas, Frame, Label, Radiobutton, StringVar, Tk, filedialog as fd, messagebox, simpledialog
+from tkinter import ALL, BOTTOM, Button, Canvas, Frame, Label, Radiobutton, StringVar, Tk, filedialog as fd, messagebox, \
+    simpledialog
 from tkinter.messagebox import askyesno
 from shapegen import Scribe
+from Filters.simplified_filters import simplified_algorithm
 
 Colors = ['Red', 'Green', 'Blue', 'Grey', 'Pink']
 
@@ -13,10 +16,10 @@ class App:
         self.x = x
         self.y = y
 
-        self.fileTypes = [('JSON File', '*.json')]
+        self.fileTypes = [('JSON File', '*.json'), ('JSON File', '*.JSON')]
 
-        self.mousex = None
-        self.mousey = None
+        self.mouse_x = None
+        self.mouse_y = None
 
         self.color = "Blue"
         # Root
@@ -118,9 +121,9 @@ class App:
         self.update()
 
     def setMotion(self, event):
-        self.mousex = event.x
-        self.mousey = event.y
-        self.mouseText.set('x: {}, y: {}'.format(self.mousex, self.mousey))
+        self.mouse_x = event.x
+        self.mouse_y = event.y
+        self.mouseText.set('x: {}, y: {}'.format(self.mouse_x, self.mouse_y))
 
     def importJson(self):
         filename = fd.askopenfilename(filetypes=self.fileTypes)
@@ -131,23 +134,23 @@ class App:
 
     def exportJson(self):
         filename = fd.asksaveasfilename(
-            filetypes=self.fileTypes, defaultextension=self.fileTypes, title="Save As")
+            filetypes=self.fileTypes, defaultextension=self.fileTypes[0], title="Save As")
         Scribe.export_shapes_to_file(self.shapes, filename)
 
     def addCircle(self):
 
         radius = simpledialog.askinteger("Add circle", 'Circle radius value [{}, {}]'.format(
-            10, self.x/2), parent=self.root, minvalue=10, maxvalue=self.x/2)
-        if radius == None:
+            10, self.x / 2), parent=self.root, minvalue=10, maxvalue=self.x / 2)
+        if radius is None:
             return
         x = simpledialog.askinteger('Add circle', 'Circle x value [{}, {}]'.format(
-            radius, self.x-radius), parent=self.root, minvalue=radius, maxvalue=self.x-radius)
-        if x == None:
+            radius, self.x - radius), parent=self.root, minvalue=radius, maxvalue=self.x - radius)
+        if x is None:
             return
 
         y = simpledialog.askinteger('Add circle', 'Circle y value [{}, {}]'.format(
-            radius, self.y-radius), parent=self.root, minvalue=radius, maxvalue=self.y-radius)
-        if y == None:
+            radius, self.y - radius), parent=self.root, minvalue=radius, maxvalue=self.y - radius)
+        if y is None:
             return
 
         circle = dict()
@@ -159,9 +162,9 @@ class App:
 
     def addCircleRand(self):
         circle = dict()
-        circle["radius"] = randrange(0, self.x/2)
-        circle["center"] = (randrange(circle["radius"], self.x-circle["radius"]),
-                            randrange(circle["radius"], self.y-circle["radius"]))
+        circle["radius"] = randrange(0, self.x / 2)
+        circle["center"] = (randrange(circle["radius"], self.x - circle["radius"]),
+                            randrange(circle["radius"], self.y - circle["radius"]))
         circle["color"] = random.choice(Colors)
         self.shapes.append(circle)
         self.update()
@@ -170,20 +173,20 @@ class App:
 
         x = simpledialog.askinteger('Add quad', 'Quad x value [{}, {}]'.format(
             0, self.x), parent=self.root, minvalue=0, maxvalue=self.x)
-        if (x == None):
+        if x is None:
             return
         y = simpledialog.askinteger('Add quad', 'Quad y value [{}, {}]'.format(
             0, self.y), parent=self.root, minvalue=0, maxvalue=self.y)
-        if (y == None):
+        if y is None:
             return
 
         width = simpledialog.askinteger('Add quad', 'Quad width value [{}, {}]'.format(
             0, self.x - x), parent=self.root, minvalue=0, maxvalue=self.x - x)
-        if (width == None):
+        if width is None:
             return
         height = simpledialog.askinteger('Add quad', 'Quad height value [{}, {}]'.format(
             0, self.y - y), parent=self.root, minvalue=0, maxvalue=self.y - y)
-        if (height == None):
+        if height is None:
             return
 
         quad = dict()
@@ -217,12 +220,13 @@ class App:
 
     def drawShapes(self):
         for shape in self.shapes:
-            if(shape.get("radius")):
+            if shape.get("radius"):
                 self.canvas.create_oval(shape["center"][0] - shape["radius"], shape["center"][1] - shape["radius"],
-                                        shape["center"][0] + shape["radius"], shape["center"][1] + shape["radius"], fill=shape["color"])
+                                        shape["center"][0] + shape["radius"], shape["center"][1] + shape["radius"],
+                                        fill=shape["color"])
             else:
                 self.canvas.create_rectangle(shape["origin"][0], shape["origin"][1], shape["origin"]
-                                             [0] + shape["width"], shape["origin"][1] + shape["height"], fill=shape["color"])
+                [0] + shape["width"], shape["origin"][1] + shape["height"], fill=shape["color"])
 
     def run(self):
         self.canvas.pack()
@@ -235,6 +239,12 @@ class App:
 
     def sujet1(self):
         print('sujet1')
+        logging.info('Starting emission with a simplfied data structure')
+        logging.info(self.shapes)
+        execution_data = dict(point_1=(0, 0), point_2=(0, 0), execution_time=0)  # format des data renvoyee par simplfied algorithm
+        execution_data = simplified_algorithm(self.shapes)
+
+        self.update()
         print(self.mode.get())
 
     def sujet2(self):
@@ -245,11 +255,10 @@ class App:
         print('sujet3')
         print(self.mode.get())
 
-
-def main():
-    app = App(500, 500)
-    app.run()
-
-
-if __name__ == '__main__':
-    main()
+# def main():
+#     app = App(500, 500)
+#     app.run()
+#
+#
+# if __name__ == '__main__':
+#     main()

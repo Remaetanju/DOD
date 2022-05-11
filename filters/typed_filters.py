@@ -1,6 +1,8 @@
 from AbstractShapes import Circle, Quadrilatere
 from SimplifiedShapes import SimplifiedShape
 import math
+
+
 class Filter:
 
 
