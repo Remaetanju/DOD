@@ -1,4 +1,4 @@
-from shapegen import Scribe, Generator
+from Scribe import Scribe, Generator
 
 
 def generate_dummy_shapes_if_not_exist():
