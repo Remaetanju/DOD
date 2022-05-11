@@ -8,6 +8,8 @@ from random import randrange
 from filters.simplified_filters import simplified_algorithm
 from filters.generic_filters import generic_algorithm
 from filters.simplified_filters import simplified_algorithm
+from filters.typed_filters import typed_algorithm
+
 
 # tkinter
 from tkinter import ALL, BOTTOM,  StringVar, Tk, filedialog as fd
