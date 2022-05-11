@@ -2,17 +2,17 @@ import logging
 
 
 class SimplifiedShape:
-    center = tuple()
+    origin = tuple()
     color = str()
     radius = int()
     width = int()
     height = int()
 
-    def __init__(self, center, color, width=None, height=None, radius=None):
-        logging.info(f'{center} {color} {width} {height} {radius}')
+    def __init__(self, origin, color, width=None, height=None, radius=None):
+        logging.info(f'{origin} {color} {width} {height} {radius}')
         
         if not radius or not (height and width):
-            self.center = center
+            self.origin = origin
             self.color = color
             self.width = width
             self.height = height
@@ -24,4 +24,4 @@ class SimplifiedShape:
         return bool(self.radius)
 
     def to_json(self):
-        return dict(center=self.center, color=self.color, width=self.width, height=self.height, radius=self.radius)
+        return dict(origin=self.origin, color=self.color, width=self.width, height=self.height, radius=self.radius)

@@ -13,7 +13,7 @@ def simplified_algorithm(_shapes):
     simplified_shapes = []
 
     for shape in _shapes:
-        new_shape = SimplifiedShape(center=shape.get('center'), color=shape.get('color'), width=shape.get('width'), height=shape.get('height'), radius=shape.get('radius'))
+        new_shape = SimplifiedShape(origin=shape.get('origin'), color=shape.get('color'), width=shape.get('width'), height=shape.get('height'), radius=shape.get('radius'))
         simplified_shapes.append(new_shape)
 
     logging.info(f'Created a list of simplified shape objects for treatment, nb of elems: {len(simplified_shapes)}')
@@ -75,7 +75,7 @@ class Filter:
         mutation_shape = []
 
         for circle in circles:
-            new_simple_shape = SimplifiedShape(center=circle.center, color=circle.color,
+            new_simple_shape = SimplifiedShape(origin=circle.origin, color=circle.color,
                                                width=circle.radius, height=circle.radius,
                                                radius=None)
             mutation_shape.append(new_simple_shape)
@@ -98,17 +98,17 @@ class Filter:
 
         for shape in shapes:
 
-            if shape.center[0] - shape.width < min_left:
-                min_left = shape.center[0] - shape.width
+            if shape.origin[0] < min_left:
+                min_left = shape.origin[0]
 
-            if shape.center[0] + shape.width > max_right:
-                max_right = shape.center[0] + shape.width
+            if shape.origin[0] + shape.width > max_right:
+                max_right = shape.origin[0] + shape.width
 
-            if shape.center[1] - shape.height < min_bottom:
-                min_bottom = shape.center[1] - shape.height
+            if shape.origin[1] < min_bottom:
+                min_bottom = shape.origin[1]
 
-            if shape.center[1] + shape.height > max_top:
-                max_top = shape.center[1] + shape.height
+            if shape.origin[1] + shape.height > max_top:
+                max_top = shape.origin[1] + shape.height
 
             print()
             print("min_left " + str(min_left))

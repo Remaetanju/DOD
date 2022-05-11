@@ -159,7 +159,7 @@ class App:
 
         circle = dict()
         circle["radius"] = radius
-        circle["center"] = (x, y)
+        circle["origin"] = (x, y)
         circle["color"] = self.color
         self.shapes.append(circle)
         self.update()
@@ -167,7 +167,7 @@ class App:
     def addCircleRand(self):
         circle = dict()
         circle["radius"] = randrange(0, self.x / 2)
-        circle["center"] = (randrange(circle["radius"], self.x - circle["radius"]),
+        circle["origin"] = (randrange(circle["radius"], self.x - circle["radius"]),
                             randrange(circle["radius"], self.y - circle["radius"]))
         circle["color"] = random.choice(Colors)
         self.shapes.append(circle)
@@ -243,8 +243,8 @@ class App:
     def drawShapes(self):
         for shape in self.shapes:
             if shape.get("radius"):
-                self.canvas.create_oval(shape["center"][0] - shape["radius"], shape["center"][1] - shape["radius"],
-                                        shape["center"][0] + shape["radius"], shape["center"][1] + shape["radius"],
+                self.canvas.create_oval(shape["origin"][0] - shape["radius"], shape["origin"][1] - shape["radius"],
+                                        shape["origin"][0] + shape["radius"], shape["origin"][1] + shape["radius"],
                                         fill=shape["color"])
             else:
                 self.canvas.create_rectangle(shape["origin"][0], shape["origin"][1], shape["origin"]
