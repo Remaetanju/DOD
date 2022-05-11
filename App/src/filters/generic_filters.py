@@ -1,8 +1,7 @@
-<<<<<<< HEAD:App/src/filters/generic_filters.py
-=======
 import math
 import logging
 import time
+
 
 def generic_algorithm(_shapes):
     """
@@ -27,7 +26,6 @@ def generic_algorithm(_shapes):
     return res
 
 
->>>>>>> 244547fad831d377a8d926742a102746f77f6663:filters/generic_filters.py
 class Filter:
     @staticmethod
     def filter_generic_circle(shapes):

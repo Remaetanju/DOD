@@ -1,11 +1,8 @@
-<<<<<<< HEAD:App/src/filters/typed_filters.py
-from App.src.shapes.SimplifiedShapes import SimplifiedShape
-=======
-from AbstractShapes import Circle, Quadrilatere
->>>>>>> 244547fad831d377a8d926742a102746f77f6663:filters/typed_filters.py
+from App.src.shapes.AbstractShapes import Circle, Quadrilatere
 import math
 import logging
 import time
+
 
 def typed_algorithm(_shapes):
     """
