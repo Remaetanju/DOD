@@ -1,4 +1,0 @@
-"""
-Generic Type (hence mapping)
-"""
-
