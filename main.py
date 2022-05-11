@@ -2,6 +2,8 @@ from shapegen import Generator
 from shapegen import Scribe
 from shapegen import Picasso
 from SimplifiedShapes import SimplifiedShape
+from Filter import Filter
+
 import logging
 
 
@@ -20,7 +22,7 @@ def simplified_algorithm(_shapes):
 
     :return: None
     """
-
+    filter = Filter()
     simplified_shapes = []
 
     for shape in _shapes:
@@ -33,6 +35,23 @@ def simplified_algorithm(_shapes):
         logging.info(elem.__dict__)
 
     # operate on the simplified shape list here (filter, etc)
+    circle_list = filter.filter_simplified_circle(simplified_shapes)
+    quadrilatere_list = filter.filter_simplified_quadrilatere(simplified_shapes)
+    mutate_list = filter.mutation_simplified_circle(circle_list)
+    res = filter.emission_simplified_quadrilatere(mutate_list+quadrilatere_list)
+
+
+    for l in quadrilatere_list:
+        print(l.width)
+        print(l.height)
+        print()
+
+    for l in mutate_list:
+        print(l.width)
+        print(l.height)
+        print()
+
+    print(res)
 
     # then we re-export the data to json state
     output_shapes = []
