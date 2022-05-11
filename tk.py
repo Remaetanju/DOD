@@ -1,12 +1,16 @@
 import logging
-from random import randrange
 import random
-import json
-from tkinter import ALL, BOTTOM, Button, Canvas, Frame, Label, Radiobutton, StringVar, Tk, filedialog as fd, messagebox, \
-    simpledialog
+
+from Scribe import Scribe
+from random import randrange
+
+# algorithms import
+from filters.simplified_filters import simplified_algorithm
+
+# tkinter
+from tkinter import ALL, BOTTOM,  StringVar, Tk, filedialog as fd
+from tkinter import simpledialog, Button, Canvas, Frame, Label, Radiobutton
 from tkinter.messagebox import askyesno
-from shapegen import Scribe
-from Filters.simplified_filters import simplified_algorithm
 
 Colors = ['Red', 'Green', 'Blue', 'Grey', 'Pink']
 
@@ -273,11 +277,3 @@ class App:
     def sujet3(self):
         print('sujet3')
         print(self.mode.get())
-
-# def main():
-#     app = App(500, 500)
-#     app.run()
-#
-#
-# if __name__ == '__main__':
-#     main()

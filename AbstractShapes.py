@@ -1,6 +1,6 @@
 import random
 
-from shapegen import Colors
+from Scribe import Colors
 
 
 class AbstractShape:
