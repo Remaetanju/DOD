@@ -1,4 +1,5 @@
 import logging
+from tkinter import *
 from App.src.tk_ui import ShapeApp
 
 
