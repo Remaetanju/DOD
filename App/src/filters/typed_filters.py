@@ -2,7 +2,7 @@ import math
 import logging
 import time
 
-from DOD.App.src.shapes.AbstractShapes import Circle, Quadrilatere
+from App.src.shapes.AbstractShapes import Circle, Quadrilatere
 
 
 def typed_algorithm(_shapes):
