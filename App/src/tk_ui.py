@@ -281,11 +281,12 @@ class ShapeApp:
 
         if self.mode.get() == self.modes[1]:
             logging.info('starting parallel')
-            self.execution_data = simplified_algorithm_parallel(self.shapes)
+            self.execution_data = simplified_algorithm_parallel(self.shapes, 2)
         else:
             logging.info('starting pipeline')
             self.execution_data = simplified_algorithm(self.shapes)
 
+        logging.error(self.execution_data['execution_time'])
         self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
         self.update()
 
