@@ -1,7 +1,9 @@
-from App.src.shapes.SimplifiedShapes import SimplifiedShape
 import math
 import logging
 import time
+
+from DOD.App.src.shapes.SimplifiedShapes import SimplifiedShape
+
 
 def simplified_algorithm(_shapes):
     """
@@ -26,15 +28,47 @@ def simplified_algorithm(_shapes):
     circle_list = filter.filter_simplified_circle(simplified_shapes)
     quadrilatere_list = filter.filter_simplified_quadrilatere(simplified_shapes)
     mutate_list = filter.mutation_simplified_circle(circle_list)
-    res = filter.emission_simplified_quadrilatere(mutate_list+quadrilatere_list)
+    square_circle = filter.emission_simplified_quadrilatere(mutate_list)
+    square_quadrilatere = filter.emission_simplified_quadrilatere(quadrilatere_list)
+    res = filter.generate_final_square(square_circle, square_quadrilatere)
+
     final_timer = time.perf_counter() - timer
 
     res["execution_time"] = final_timer*1000
     """ output shapes are now op to be displayed """
     return res
 
+def is_sup(val1, val2):
+    if val1 > val2:
+        return val1
+    else:
+        return val2
+
+def is_inf(val1, val2):
+    if val1 > val2:
+        return val2
+    else:
+        return val1
 
 class Filter:
+
+
+    @staticmethod
+    def generate_final_square(square_circle, square_quadrilatere):
+
+
+        new_p1_x = is_inf(square_circle["point_1"][0],square_quadrilatere["point_1"][0])
+        new_p1_y = is_inf(square_circle["point_1"][1],square_quadrilatere["point_1"][1])
+
+        new_p2_x = is_sup(square_circle["point_2"][0],square_quadrilatere["point_2"][0])
+        new_p2_y = is_sup(square_circle["point_2"][1],square_quadrilatere["point_2"][1])
+
+
+        res = dict(point_1=(new_p1_x, new_p1_y), point_2=(new_p2_x, new_p2_y), execution_time=0)
+        print("generate_final_square")
+        print(res)
+        return res
+
 
     @staticmethod
     def filter_simplified_circle(shapes):
