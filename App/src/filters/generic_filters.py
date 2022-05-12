@@ -66,14 +66,8 @@ class Filter:
         max_right = - math.inf
         max_top = - math.inf
         min_bottom = math.inf
-        print("min_left " + str(min_left))
-        print("max_right " + str(max_right))
-        print("max_top " + str(max_top))
-        print("min_bottom " + str(min_bottom))
 
         for shape in shapes:
-
-
             if shape.get("origin")[0] < min_left:
                 min_left = shape.get("origin")[0]
 
@@ -86,19 +80,5 @@ class Filter:
             if shape.get("origin")[1] + shape.get("height") > max_top:
                 max_top = shape.get("origin")[1] + shape.get("height")
 
-            print("AZERTY")
-            print("min_left " + str(shape.get("width")))
-            print("max_right " + str(shape.get("height")))
-           # print("max_top " + str(max_top))
-            #print("min_bottom " + str(min_bottom))
-            print()
-
-        print("TEST")
-        print("width: " + str(max_right - min_left))
-        print("height: " + str(max_top - min_bottom))
         result_execution_data = dict(point_1=(min_left, min_bottom), point_2=(max_right, max_top), execution_time=0)
-
-        print("coucou")
-        print(result_execution_data["point_1"])
-
         return result_execution_data
