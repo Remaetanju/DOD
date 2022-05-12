@@ -6,9 +6,13 @@ from random import randrange
 
 # algorithms import
 
+# pipelines algos
 from App.src.filters.simplified_filters import simplified_algorithm
 from App.src.filters.typed_filters import typed_algorithm
 from App.src.filters.generic_filters import generic_algorithm
+
+# parallel algos
+from App.src.filters.simplified_filters_parallel import simplified_algorithm_parallel
 
 # tkinter
 from tkinter import ALL, BOTTOM,  StringVar, Tk, filedialog as fd
@@ -111,6 +115,8 @@ class ShapeApp:
         self.modes = ['pipeline', 'parallel']
         self.modeLabels = ['Pipeline', 'Parallel']
         self.mode = StringVar()
+        self.mode.set(self.modes[0])
+
         self.bpipeline = Radiobutton(self.topFrame, variable=self.mode, text=self.modeLabels[0], value=self.modes[0])
         self.bparallel = Radiobutton(self.topFrame, variable=self.mode, text=self.modeLabels[1], value=self.modes[1])
         self.bpipeline.grid(column=2, row=5)
@@ -130,7 +136,6 @@ class ShapeApp:
         self.canvas.bind('<Motion>', self.setMotion)
 
         self.shapes = list()
-
         self.update()
 
     def setMotion(self, event):
@@ -185,8 +190,6 @@ class ShapeApp:
     def drawResultRect(self):
 
         if self.execution_data is not None:
-
-            #print(self.execution_data)
             p1 = self.execution_data["point_1"]
             p2 = self.execution_data["point_2"]
 
@@ -196,13 +199,13 @@ class ShapeApp:
             bl = (p1[0], p2[1])
             br = (p2[0], p2[1])
 
-            dash = (5,2)
+            dash = (5, 2)
             lineWidth = 3
 
-            self.canvas.create_line(tl , tr, dash=dash, width=lineWidth)
-            self.canvas.create_line(tr , br, dash=dash, width=lineWidth)
-            self.canvas.create_line(br , bl, dash=dash, width=lineWidth)
-            self.canvas.create_line(bl , tl, dash=dash, width=lineWidth)
+            self.canvas.create_line(tl, tr, dash=dash, width=lineWidth)
+            self.canvas.create_line(tr, br, dash=dash, width=lineWidth)
+            self.canvas.create_line(br, bl, dash=dash, width=lineWidth)
+            self.canvas.create_line(bl, tl, dash=dash, width=lineWidth)
 
     def addRectangle(self):
 
@@ -274,13 +277,17 @@ class ShapeApp:
         self.colorLabel.config(bg=color)
 
     def sujet1(self):
-        logging.info('Starting emission with a simplfied data structure')
-        logging.info(self.shapes)
-        self.execution_data = simplified_algorithm(self.shapes)
+        logging.info(f'Starting {self.mode.get} emission with a simplified data structure on {len(self.shapes)} shapes')
+
+        if self.mode.get() == self.modes[1]:
+            logging.info('starting parallel')
+            self.execution_data = simplified_algorithm_parallel(self.shapes)
+        else:
+            logging.info('starting pipeline')
+            self.execution_data = simplified_algorithm(self.shapes)
 
         self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
         self.update()
-        print(self.mode.get())
 
     def sujet2(self):
         print('sujet2')

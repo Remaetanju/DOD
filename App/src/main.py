@@ -7,7 +7,7 @@ def logging_config():
 
     loggers = [logging.getLogger(name) for name in logging.root.manager.loggerDict]
 
-    logging.basicConfig(filename=None, level=logging.DEBUG, format='%(levelname)s:%(name)s:%(message)s\n')
+    logging.basicConfig(filename=None, level=logging.DEBUG, format='%(levelname)s | %(name)s | %(message)s | %(thread)d')
     # logging.info(f'available loggers: {loggers}')
 
 
