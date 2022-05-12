@@ -15,8 +15,8 @@ from App.src.filters.generic_filters import generic_algorithm
 from App.src.filters.simplified_filters_parallel import simplified_algorithm_parallel
 
 # tkinter
-from tkinter import ALL, BOTTOM,  StringVar, Tk, filedialog as fd
-from tkinter import simpledialog, Button, Canvas, Frame, Label, Radiobutton
+from tkinter import ALL, BOTTOM, StringVar, Tk, filedialog as fd
+from tkinter import simpledialog, Button, Canvas, Frame, Label, Radiobutton, ttk
 from tkinter.messagebox import askyesno
 
 Colors = ['Red', 'Green', 'Blue', 'Grey', 'Pink']
@@ -90,6 +90,10 @@ class ShapeApp:
             self.topFrame, text=Colors[3], command=lambda: self.setColor(Colors[3]), background=Colors[3]))
         self.colorButtons.append(Button(
             self.topFrame, text=Colors[4], command=lambda: self.setColor(Colors[4]), background=Colors[4]))
+        self.threadSelect = ttk.Combobox(self.topFrame, values=[1,2,3,4])
+        self.threadText = StringVar()
+        self.threadLabel = Label(self.topFrame, textvariable=self.threadText)
+        self.threadText.set("Thread n°:")
 
         # Grid
         self.bsujet1.grid(column=0, row=1)
@@ -126,6 +130,9 @@ class ShapeApp:
         self.timeLabel = Label(self.topFrame, textvariable=self.timeText)
         self.timeText.set("Time:")
         self.timeLabel.grid(column=0, row=6)
+
+        self.threadSelect.grid(column=3, row=6)
+        self.threadLabel.grid(column=2, row=6)
 
         # drawing area
         self.drawFrame = Frame(self.root, width=self.x, height=self.y, bg='lightgrey',
@@ -291,24 +298,19 @@ class ShapeApp:
         self.update()
 
     def sujet2(self):
-        print('sujet2')
         logging.info('Starting emission with a generic data structure')
-        print("AAAAAAAAAAAAAAAAA")
-        print(self.shapes)
-        print("BBBBBBBBBBBBBBBBB")
         logging.info(self.shapes)
         self.execution_data = generic_algorithm(self.shapes)
 
         self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
         self.update()
-        print(self.mode.get())
+
+        print(self.threadSelect.get())
 
     def sujet3(self):
-        print('sujet3')
         logging.info('Starting emission with a typed data structure')
         logging.info(self.shapes)
         self.execution_data = typed_algorithm(self.shapes)
 
         self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
         self.update()
-        print(self.mode.get())

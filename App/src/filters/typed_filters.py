@@ -38,10 +38,6 @@ def typed_algorithm(_shapes):
 
     final_timer = time.perf_counter() - timer
 
-    print("aaaaaaaaaaa")
-    print(res)
-    print("bbbbbbbbbbb")
-
     res["execution_time"] = final_timer*1000
     """ output shapes are now op to be displayed """
     return res
@@ -116,37 +112,17 @@ class Filter:
 
 
         id = 0
-        print("min_left "+str(min_left))
-        print("max_right "+str(max_right))
-        print("max_top "+str(max_top))
-        print("min_bottom "+str(min_bottom))
-
         for shape in shapes:
-
             if shape.origin[0] < min_left:
                 min_left = shape.origin[0]
-
             if shape.origin[0] + shape.width > max_right:
                 max_right = shape.origin[0] + shape.width
-
             if shape.origin[1] < min_bottom:
                 min_bottom = shape.origin[1]
-
             if shape.origin[1] + shape.height > max_top:
                 max_top = shape.origin[1] + shape.height
 
-            print()
-            print("min_left " + str(min_left))
-            print("max_right " + str(max_right))
-            print("max_top " + str(max_top))
-            print("min_bottom " + str(min_bottom))
-            print()
             id += 1
 
-
-        print("TEST")
-        print("width: " + str(max_right-min_left))
-        print("height: " + str(max_top-min_bottom))
         result_execution_data = dict(point_1=(min_left, min_bottom), point_2=(max_right, max_top), execution_time=0)
-
         return result_execution_data
