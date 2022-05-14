@@ -1,29 +1,12 @@
 import math
 import logging
-import time
+import threading
+
 from App.src.tools.tools import Runtime
 
 
-def generic_algorithm(_shapes):
-    runtime = Runtime()
-    runtime.start_nanoseconds()
-
-    logging.info(f'Created a list of simplified shape objects for treatment, nb of elems: {len(_shapes)}')
-
-    # operate on the simplified shape list here (filter, etc)
-    circle_list = filter_generic_circle(_shapes)
-    quadrilatere_list = filter_generic_quadrilatere(_shapes)
-
-    mutate_list = mutation_generic_circle(circle_list)
-
-    square_circle = emission_generic_quadrilatere(mutate_list)
-    square_quadrilatere = emission_generic_quadrilatere(quadrilatere_list)
-
-    res = generate_final_square(square_circle, square_quadrilatere)
-
-    res["execution_time"] = (runtime.stop_nanoseconds())
-    """ output shapes are now op to be displayed """
-    return res
+circles_list = []
+quadrilateres_list = []
 
 
 def is_sup(val1, val2):
@@ -52,25 +35,12 @@ def generate_final_square(square_circle, square_quadrilatere):
     return res
 
 
-def filter_generic_circle(shapes):
-
-    circles_list = []
-
+def filter_generic(shapes):
     for shape in shapes:
         if shape.get('radius') is not None:
             circles_list.append(shape)
-
-    return circles_list
-
-
-def filter_generic_quadrilatere(shapes):
-    quadrilatere_list = []
-
-    for shape in shapes:
-        if shape.get('height') is not None:
-            quadrilatere_list.append(shape)
-
-    return quadrilatere_list
+        else:
+            quadrilateres_list.append(shape)
 
 
 def mutation_generic_circle(cercles):
@@ -106,3 +76,29 @@ def emission_generic_quadrilatere(shapes):
 
     result_execution_data = dict(point_1=(min_left, min_bottom), point_2=(max_right, max_top), execution_time=0)
     return result_execution_data
+
+
+def generic_algorithm_parallel(_shapes, thread_nb):
+    runtime = Runtime()
+    runtime.start_nanoseconds()
+
+    logging.info(f'Created a list of simplified shape objects for treatment, nb of elems: {len(_shapes)}')
+
+    # operate on the simplified shape list here (filter, etc)
+    simplified_threads = [threading.Thread(target=filter_generic, args=[_shapes]) for i in range(thread_nb)]
+
+    for t in simplified_threads:
+        t.start()
+    for t in simplified_threads:
+        t.join()
+
+    mutate_list = mutation_generic_circle(circles_list)
+
+    square_circle = emission_generic_quadrilatere(mutate_list)
+    square_quadrilatere = emission_generic_quadrilatere(quadrilateres_list)
+
+    res = generate_final_square(square_circle, square_quadrilatere)
+
+    res["execution_time"] = (runtime.stop_nanoseconds())
+    """ output shapes are now op to be displayed """
+    return res

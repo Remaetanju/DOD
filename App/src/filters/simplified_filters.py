@@ -1,8 +1,8 @@
 import math
 import logging
-import time
 
 from App.src.shapes.SimplifiedShapes import SimplifiedShape
+from App.src.tools.tools import Runtime
 
 
 def is_sup(val1, val2):
@@ -89,7 +89,8 @@ def simplified_algorithm(_shapes):
     logging.info(f'Created a list of simplified shape objects for treatment, nb of elems: {len(simplified_shapes)}')
 
     # operate on the simplified shape list here (filter, etc)
-    start_time = time.time()
+    runtime = Runtime()
+    runtime.start_nanoseconds()
 
     circle_list = filter_simplified_circle(simplified_shapes)
     quadrilatere_list = filter_simplified_quadrilatere(simplified_shapes)
@@ -99,6 +100,5 @@ def simplified_algorithm(_shapes):
     square_quadrilatere = emission_simplified_quadrilatere(quadrilatere_list)
     res = generate_final_square(square_circle, square_quadrilatere)
 
-    final_timer = (time.time() - start_time)
-    res["execution_time"] = final_timer * 1000
+    res["execution_time"] = (runtime.stop_nanoseconds())
     return res

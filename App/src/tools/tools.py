@@ -1,4 +1,6 @@
 import json
+from time import time_ns
+from typing import Any
 
 
 class Scribe:
@@ -11,3 +13,13 @@ class Scribe:
     def import_shapes_from_file(filename):
         with open(filename, 'r') as file:
             return json.load(file)
+
+
+class Runtime:
+    _start = Any
+
+    def start_nanoseconds(self):
+        self._start = time_ns()
+
+    def stop_nanoseconds(self):
+        return (time_ns() - self._start) / 1_000_000  # from nanoseconds to milliseconds

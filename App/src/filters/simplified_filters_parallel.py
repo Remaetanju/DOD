@@ -1,10 +1,11 @@
 import math
 import logging
-import time
 
+from App.src.tools.tools import Runtime
 from App.src.shapes.SimplifiedShapes import SimplifiedShape
 
 import threading
+from threading import Lock
 
 circles_list = []
 quadrilateres_list = []
@@ -40,18 +41,17 @@ def generate_final_square(square_circle, square_quadrilatere):
     return res
 
 
-def filter_simplified_circle(shapes):
-
+def filter_simplified(shapes):
     for shape in shapes:
-        if shape.radius is not None:
-            circles_list.append(shape)
+        if lock_list[shapes.index(shape)].locked():
+            pass
+        else:
+            lock_list[shapes.index(shape)].acquire()
 
-
-def filter_simplified_quadrilatere(shapes):
-
-    for shape in shapes:
-        if shape.height is not None:
-            quadrilateres_list.append(shape)
+            if shape.radius is not None:
+                circles_list.append(shape)
+            else:
+                quadrilateres_list.append(shape)
 
 
 def mutation_simplified_circle(circles):
@@ -92,6 +92,8 @@ def simplified_algorithm_parallel(_shapes, thread_nb):
     circles_list.clear()
     quadrilateres_list.clear()
     simplified_shapes = []
+    global lock_list
+    lock_list = [Lock() for shape in _shapes]
 
     for shape in _shapes:
         new_shape = SimplifiedShape(origin=shape.get('origin'), color=shape.get('color'), width=shape.get('width'),
@@ -100,12 +102,10 @@ def simplified_algorithm_parallel(_shapes, thread_nb):
     logging.info(f'Created a list of simplified shape objects for treatment, nb of elems: {len(simplified_shapes)}')
 
     # operate on the simplified shape list here (filter, etc)
-    start_time = time.time()
+    runtime = Runtime()
+    runtime.start_nanoseconds()
 
-    circles_threads = [threading.Thread(target=filter_simplified_circle, args=[simplified_shapes]) for i in range(thread_nb)]
-    square_threads = [threading.Thread(target=filter_simplified_quadrilatere, args=[simplified_shapes]) for i in range(thread_nb)]
-
-    simplified_threads = circles_threads + square_threads
+    simplified_threads = [threading.Thread(target=filter_simplified, args=[simplified_shapes]) for i in range(thread_nb)]
 
     for t in simplified_threads:
         t.start()
@@ -116,8 +116,8 @@ def simplified_algorithm_parallel(_shapes, thread_nb):
 
     square_circle = emission_simplified_quadrilatere(mutate_list)
     square_quadrilatere = emission_simplified_quadrilatere(quadrilateres_list)
+
     res = generate_final_square(square_circle, square_quadrilatere)
 
-    final_timer = (time.time() - start_time)
-    res["execution_time"] = final_timer * 1000
+    res["execution_time"] = (runtime.stop_nanoseconds())
     return res

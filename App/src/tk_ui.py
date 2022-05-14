@@ -1,7 +1,7 @@
 import logging
 import random
 
-from App.src.tools.Scribe import Scribe
+from App.src.tools.tools import Scribe
 from random import randrange
 
 # algorithms import
@@ -13,6 +13,7 @@ from App.src.filters.generic_filters import generic_algorithm
 
 # parallel algos
 from App.src.filters.simplified_filters_parallel import simplified_algorithm_parallel
+from App.src.filters.generic_filters_parallel import generic_algorithm_parallel
 
 # tkinter
 from tkinter import ALL, BOTTOM, StringVar, Tk, filedialog as fd
@@ -36,7 +37,7 @@ class ShapeApp:
         # Root
 
         self.root = Tk()
-        self.root.geometry("510x700")
+        self.root.geometry("600x700")
         self.root.title('DOD shape project')
 
         # Top Frame
@@ -48,13 +49,13 @@ class ShapeApp:
         # Grid items
 
         self.bsujet1 = Button(
-            self.topFrame, text='Simplified', command=self.sujet1)
+            self.topFrame, text='Simplified', command=self.simplified_button)
 
         self.bsujet2 = Button(
-            self.topFrame, text='Generic', command=self.sujet2)
+            self.topFrame, text='Generic', command=self.generic_button)
 
         self.bsujet3 = Button(
-            self.topFrame, text='Typed', command=self.sujet3)
+            self.topFrame, text='Typed', command=self.typed_button)
 
         self.bAddCircle = Button(
             self.topFrame, text='Add Circle', command=self.addCircle)
@@ -90,7 +91,8 @@ class ShapeApp:
             self.topFrame, text=Colors[3], command=lambda: self.setColor(Colors[3]), background=Colors[3]))
         self.colorButtons.append(Button(
             self.topFrame, text=Colors[4], command=lambda: self.setColor(Colors[4]), background=Colors[4]))
-        self.threadSelect = ttk.Combobox(self.topFrame, values=[1,2,3,4])
+        self.threadSelect = ttk.Combobox(self.topFrame, state="readonly", values=[1, 2, 3, 4])
+        self.threadSelect.current(0)
         self.threadText = StringVar()
         self.threadLabel = Label(self.topFrame, textvariable=self.threadText)
         self.threadText.set("Thread n°:")
@@ -280,37 +282,48 @@ class ShapeApp:
 
     def setColor(self, color):
         self.color = color
-        # self.colorText.set('color: {}'.format(color))
         self.colorLabel.config(bg=color)
 
-    def sujet1(self):
-        logging.info(f'Starting {self.mode.get} emission with a simplified data structure on {len(self.shapes)} shapes')
-
+    def simplified_button(self):
         if self.mode.get() == self.modes[1]:
-            logging.info('starting parallel')
-            self.execution_data = simplified_algorithm_parallel(self.shapes, 2)
+            self.execution_data = simplified_algorithm_parallel(self.shapes, int(self.threadSelect.get()))
         else:
-            logging.info('starting pipeline')
             self.execution_data = simplified_algorithm(self.shapes)
 
-        logging.error(self.execution_data['execution_time'])
         self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
         self.update()
 
-    def sujet2(self):
-        logging.info('Starting emission with a generic data structure')
-        logging.info(self.shapes)
-        self.execution_data = generic_algorithm(self.shapes)
+    def generic_button(self):
+        if self.mode.get() == self.modes[1]:
+            self.execution_data = generic_algorithm_parallel(self.shapes, int(self.threadSelect.get()))
+        else:
+            self.execution_data = generic_algorithm(self.shapes)
 
+        logging.error(self.execution_data)
         self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
         self.update()
 
         print(self.threadSelect.get())
 
-    def sujet3(self):
-        logging.info('Starting emission with a typed data structure')
-        logging.info(self.shapes)
+    # TODO finish parallel
+    def typed_button(self):
         self.execution_data = typed_algorithm(self.shapes)
-
         self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
         self.update()
+
+    #
+    # def start_algorithm(self, algo_type):
+    #
+    #     logging.info(f'Starting {algo_type} {self.mode.get()} emission on {len(self.shapes)} shapes')
+    #
+    #     if algo_type == 'simplified':
+    #         if self.mode.get() == self.modes[1]:
+    #             logging.info(f'starting parallel with {self.threadSelect.get()} threads')
+    #             self.execution_data = simplified_algorithm_parallel(self.shapes, int(self.threadSelect.get()))
+    #         else:
+    #             logging.info('starting pipeline')
+    #             self.execution_data = simplified_algorithm(self.shapes)
+    #
+    #     logging.error(self.execution_data['execution_time'])
+    #     self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
+    #     self.update()
