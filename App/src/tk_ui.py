@@ -14,7 +14,7 @@ from App.src.filters.generic_filters import generic_algorithm
 # parallel algos
 from App.src.filters.simplified_filters_parallel import simplified_algorithm_parallel
 from App.src.filters.generic_filters_parallel import generic_algorithm_parallel
-
+from App.src.filters.typed_filters_parallel import typed_algorithm_parallel
 # tkinter
 from tkinter import ALL, BOTTOM, StringVar, Tk, filedialog as fd
 from tkinter import simpledialog, Button, Canvas, Frame, Label, Radiobutton, ttk
@@ -305,25 +305,12 @@ class ShapeApp:
 
         print(self.threadSelect.get())
 
-    # TODO finish parallel
     def typed_button(self):
+        if self.mode.get() == self.modes[1]:
+            self.execution_data = typed_algorithm_parallel(self.shapes, int(self.threadSelect.get()))
+        else:
+            self.execution_data = typed_algorithm(self.shapes)
+
         self.execution_data = typed_algorithm(self.shapes)
         self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
         self.update()
-
-    #
-    # def start_algorithm(self, algo_type):
-    #
-    #     logging.info(f'Starting {algo_type} {self.mode.get()} emission on {len(self.shapes)} shapes')
-    #
-    #     if algo_type == 'simplified':
-    #         if self.mode.get() == self.modes[1]:
-    #             logging.info(f'starting parallel with {self.threadSelect.get()} threads')
-    #             self.execution_data = simplified_algorithm_parallel(self.shapes, int(self.threadSelect.get()))
-    #         else:
-    #             logging.info('starting pipeline')
-    #             self.execution_data = simplified_algorithm(self.shapes)
-    #
-    #     logging.error(self.execution_data['execution_time'])
-    #     self.timeText.set("Time: {}ms".format(self.execution_data["execution_time"]))
-    #     self.update()
